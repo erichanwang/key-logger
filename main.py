@@ -1,37 +1,24 @@
-# key logger
+import controls.py
+import keyboard_detection.py
+import mouse_detection.py
 
-import pynput
-from pynput import keyboard
+import pynput 
+import pyautogui
+import time
+import random
+import threading
 
-def on_press(key):
-    try:
-        print('Alphanumeric key {0} pressed'.format(
-            key.char))
-    except AttributeError:
-        print('Special key {0} pressed'.format(
-            key))
-        
-def on_release(key):
-    print('{0} released'.format(
-        key))
-    if key == keyboard.Key.esc:
-        # Stop listener
-        return False
+def main():
+    # Start mouse and keyboard listeners in separate threads
+    mouse_thread = threading.Thread(target=mouse_detection.main)
+    keyboard_thread = threading.Thread(target=keyboard_detection.main)
     
-def get_mouse_position():
-    with pynput.mouse.Controller() as mouse:
-        print('The current pointer position is {0}'.format(
-            mouse.position))
-
+    mouse_thread.start()
+    keyboard_thread.start()
+    
+    # Wait for both threads to finish (they won't, since they run indefinitely)
+    mouse_thread.join()
+    keyboard_thread.join()
+    
 if __name__ == "__main__":
-    #track mouse clicks, mouse position, and keyboard key presses continuously
-    while True:
-        get_mouse_position()
-        with keyboard.Listener(
-            on_press=on_press,
-            on_release=on_release) as listener:
-            listener.join()
-        
-        
-        
-    
+    main()
