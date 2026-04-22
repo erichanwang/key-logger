@@ -1,0 +1,34 @@
+move_mouse(0,0)
+right_click()
+key("s")
+type("solve the question and return the correct answer in the EXACT following format: The correct answer is [Answer]")
+
+move_mouse(-3000, 1000)
+select_all()
+copy()
+read_from_copied_text()
+
+# use NLP to process out
+# pasted_text.find "The correct answer is ().
+# () is the correct answer
+
+correct_answer = NLP_pasted_text()
+
+# define method: close google lens
+
+move_mouse(-1807, 182)
+left_click()
+
+# define method: choose options
+# this will require the use of computer vision 2 in python
+
+key("page_down")
+locate(correct_answer)
+
+move_mouse(correct_answer.location)
+left_click()
+
+
+# define method: move onto next question
+move_mouse(-221, 2090)
+left_click
